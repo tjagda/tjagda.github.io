@@ -13,21 +13,15 @@ h1 {
   bottom: 10px; /* Place the button at the bottom of the page */
   right: 20px; /* Place the button 30px from the right */
   z-index: 99; /* Make sure it does not overlap */
-  -moz-transform: rotate(270deg);
-  -webkit-transform: rotate(270deg);
-  -o-transform: rotate(270deg);
-  -ms-transform: rotate(270deg);
-  transform: rotate(270deg);
   border: none; /* Remove borders */
   outline: none; /* Remove outline */
   background-color: rgb(93, 206, 235); /* Set a background color */
   color: white; /* Text color */
   cursor: pointer; /* Add a mouse pointer on hover */
-  padding: 10px; /* Some padding */
+  padding: 10px 20px 10px 20px; /* Some padding */
   border-radius: 10px; /* Rounded corners */
-  font-size: 18px; /* Increase font size */
+  font-size: 25px; /* Increase font size */
   text-align: center;
-  vertical-align: baseline;
 }
 
 #myBtn:hover {
