@@ -22,6 +22,7 @@ h1 {
   border-radius: 10px; /* Rounded corners */
   font-size: 25px; /* Increase font size */
   text-align: center;
+  vertical-align: middle;
 }
 
 #myBtn:hover {
