@@ -1,5 +1,2 @@
-# tjagda.github.io
-
-## Description
-
-Personal website + coop report (now with Jekyll)
+# personal-jekyll-blog
+Jekyll files to build personal blog
