@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <title>GVC Mens - Fundementals: Salvation</title>
-    <link rel="stylesheet" href="assets/gvc/dist/reveal.css" />
-    <link rel="stylesheet" href="assets/gvc/dist/theme/serif.css" id="theme" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/serif.css" id="theme" />
     <style>
       .verse {
         font-size: smaller;
@@ -36,7 +36,7 @@
         </section>
 
         <section
-          data-background-image="assets/gvc/img/rollercoaster.jpg"
+          data-background-image="img/rollercoaster.jpg"
           data-background-opacity="0.5"
         >
           <h2 class="override-light-text">Highs and Lows</h2>
@@ -72,7 +72,7 @@
           <section>
             <h3>Why should we care?</h3>
             <img
-              src="assets/gvc/img/pedestrian-walking.jpg"
+              src="img/pedestrian-walking.jpg"
               alt=""
               style="width: 50%"
             />
@@ -115,7 +115,7 @@
         <section>
           <section>
             <h3>How do we become saved?</h3>
-            <img src="assets/gvc/img/checklist.png" alt="" style="width: 30%" />
+            <img src="img/checklist.png" alt="" style="width: 30%" />
             <h3>Are there any requirements?</h3>
           </section>
           <section>
@@ -149,7 +149,7 @@
         <section>
           <section>
             <img
-              src="assets/gvc/img/cross-man-looking-up-at.jpg"
+              src="img/cross-man-looking-up-at.jpg"
               alt=""
               style="width: 50%"
             />
@@ -222,13 +222,14 @@
       </div>
     </div>
 
-    <script src="assets/gvc/dist/reveal.js"></script>
+    <script src="dist/reveal.js"></script>
     <script>
       Reveal.initialize({
         center: true,
         controls: false,
         history: true,
         progress: false,
+        touch: false,
         multiplex: {
           secret: null, // Obtained from the socket.io server. Gives this (the master) control of the presentation
           id: '4b1a94c80452bcc3', // Obtained from socket.io server
