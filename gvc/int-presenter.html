@@ -308,6 +308,15 @@
         id: '742387d28ddf71f0', // Obtained from socket.io server
         url: 'https://reveal-multiplex.glitch.me/' // Location of socket.io server
       },
+      dependencies: [{
+          src: 'https://reveal-multiplex.glitch.me/socket.io/socket.io.js',
+          async: true
+        },
+        {
+          src: 'https://reveal-multiplex.glitch.me/master.js',
+          async: true
+        },
+      ]
     });
   </script>
 </body>
