@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.jade.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.1.0"></script>
+  <style>
+    svg {
+      width: 95%;
+      height: 95%;
+    }
+
+    .faded {
+      color: grey;
+      font-style: italic;
+    }
+
+    #twoCol {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    #nameDropdown {
+      width: 100%;
+
+    }
+
+    #map {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', async function () {
+      // List of people
+      // (TODO: change into it's own file?)
+      const list = [
+        {
+          "name": "Josh Agda",
+          "table": "1"
+        },
+        {
+          "name": "Zemirah Garcia",
+          "table": "1"
+        },
+        {
+          "name": "Romeo Agda Sr.",
+          "table": "2"
+        },
+        {
+          "name": "Jael Agda",
+          "table": "2"
+        },
+        {
+          "name": "Romeo Agda Jr.",
+          "table": "2"
+        },
+        {
+          "name": "John Agda",
+          "table": "2"
+        },
+        {
+          "name": "Jireh Agda",
+          "table": "2"
+        },
+        {
+          "name": "Noel Garcia",
+          "table": "3"
+        },
+        {
+          "name": "Zenaida Garcia",
+          "table": "3"
+        },
+        {
+          "name": "Zigrid Garcia",
+          "table": "3"
+        },
+        {
+          "name": "Zarah Garcia",
+          "table": "3"
+        },
+        {
+          "name": "JN Garcia",
+          "table": "3"
+        },
+      ]
+
+      // Fuse search setup
+      const options = {
+        includeScore: true,
+        keys: ["name"]
+      }
+      const fuse = new Fuse(list, options);
+
+      // Elements
+      const searchInput = document.getElementById("search");
+      const resetBtn = document.getElementById("reset");
+      const outputText = document.getElementById("output");
+      const nameDropdownDiv = document.getElementById("nameDropdown");
+
+      function addNameDropdownCard(name, table) {
+        let card = document.createElement("article");
+        card.style.cursor = "pointer";
+        card.innerHTML = `${name} <span class="faded">Table&nbsp;${table}</span>`;
+        nameDropdownDiv.append(card);
+      }
+
+      function clearDropdownCards() {
+        nameDropdownDiv.innerHTML = "";
+      }
+
+      // Input function
+      searchInput.addEventListener("input", function () {
+        const limit = 7;
+        let result = fuse.search(this.value);
+
+        // Only get the top hits
+        let topHits = result.slice(0, limit).map(function (item) {
+          return [item["item"]["name"], item["item"]["table"]];
+        });
+
+        // Clear and generate dropdown cards
+        clearDropdownCards();
+        topHits.forEach((element) => addNameDropdownCard(element[0], element[1]))
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <main class="container">
+    <div id="search-bar">
+      <input type="search" id="search" name="search" placeholder="Search Name" aria-describedby="search-helper">
+      <small id="search-helper">
+        Enter your name to find your table!
+      </small>
+    </div>
+
+    <div id="twoCol">
+      <div id="nameDropdown">
+      </div>
+
+      <div id="map">
+        <svg viewBox="0 0 500 900">
+          <style type="text/css">
+          </style>
+          <image href="./floorplan.png" x="0" y="0" width="500" height="900" />
+        </svg>
+        <!-- <svg viewbox="0 0 200 200">
+          <style type="text/css">
+            .test {
+              fill: purple;
+            }
+
+            g:hover rect:first-child {
+              fill: red;
+              stroke: blue;
+            }
+
+            g:hover rect {
+              fill: green;
+            }
+
+            rect {
+              stroke: green;
+              stroke-width: 2;
+              fill: yellow;
+            }
+          </style>
+          <g>
+            <rect x="0" y="0" width="200" height="200" />
+            <rect x="0" y="0" rx="5" width="100" height="60" />
+            <rect x="20" y="20" rx="5" width="10" height="10" />
+            <text x="10" y="20">Test</text>
+          </g>
+          <rect class="test" x="0" y="20" width="100" height="20" />
+        </svg> -->
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>
