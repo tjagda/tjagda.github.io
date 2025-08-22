@@ -137,12 +137,12 @@
       touch: false,
       multiplex: {
         secret: null, // Obtained from the socket.io server. Gives this (the master) control of the presentation
-        id: 'fbf90213fcec38dd', // Obtained from socket.io server
-        url: 'https://reveal-multiplex.glitch.me/' // Location of socket.io server
+        id: 'b157f3e3125c7c09f714a50b8374da0f552be3dddc00ccaaf4fd88e9605b8caf', // Obtained from socket.io server
+        url: 'https://edavidaja-multiplex.deno.dev' // Location of socket.io server
       },
       dependencies: [
-        {src: 'https://reveal-multiplex.glitch.me/socket.io/socket.io.js', async: true},
-        {src: 'https://reveal-multiplex.glitch.me/client.js', async: true},
+        {src: 'https://edavidaja-multiplex.deno.dev/socket.io/socket.io.js', async: true},
+        {src: 'https://edavidaja-multiplex.deno.dev/master.js', async: true},
       ],
       // Learn about plugins: https://revealjs.com/plugins/
       plugins: [RevealMath.KaTeX]
