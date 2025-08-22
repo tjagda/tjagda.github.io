@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>GVC Youth - Joint Bible Study - Theos</title>
+
+  <link rel="stylesheet" href="dist/reset.css">
+  <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/theme/beige.css">
+  <style>
+    .verse {
+      padding-left: 12%;
+      padding-right: 12%;
+      text-align: left;
+      font-size: 74%;
+    }
+
+    .verse-citation {
+      padding-left: 12%;
+      padding-right: 12%;
+      text-align: right;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <img
+          src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExY200c3ptZ2xkMGw1MnZoaXk5ZDkzYnJqbnBqNDR4YmpucjQ1NTZ1MSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/k8kITi9SAwe9JWbUaH/giphy.gif"
+          alt="">
+      </section>
+
+      <section>
+        <h1>Theology</h1>
+        <h3>GVC Joint Bible Talk..?</h3>
+      </section>
+
+      <section>
+        <section>
+          <h3>
+            Who is God? Why should I care?
+          </h3>
+          <h5>(1/8)</h5>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h3>
+            Are people good, evil, or <em>it depends</em> ?
+          </h3>
+          <h5>(2/8)</h5>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h3>
+            What do you believe happens when you die?
+          </h3>
+          <h5>(3/8)</h5>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h3>
+            Who is Jesus? Why did He die for us?
+          </h3>
+          <h5>(4/8)</h5>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h3>
+            How is one <em>saved</em> ?<br />Can you lose that status?
+          </h3>
+          <h5>(5/8)</h5>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h3>
+            What does a growing faith look like?<br />Does yours look like one?
+          </h3>
+          <h5>(6/8)</h5>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h3>
+            Do you enjoy the Bible?<br />Have you read the whole thing?
+          </h3>
+          <h5>(7/8)</h5>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h3>
+            How are you enjoying <em>intimacy</em>&nbsp; with God?
+          </h3>
+          <h5>(8/8)</h5>
+        </section>
+      </section>
+
+      <section>
+        <img
+          src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzBwM2F1ZjhoZGJleGZ0dDRyOWNwMHc1b2llc2F6eHlsc3d0b3dpeCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Gf55HCmdM0wbsmUjrZ/giphy.gif"
+          alt="">
+        <h1>END</h1>
+      </section>
+    </div>
+  </div>
+
+  <script src="dist/reveal.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    // More info about initialization & config:
+    // - https://revealjs.com/initialization/
+    // - https://revealjs.com/config/
+    Reveal.initialize({
+      hash: true,
+      progress: false,
+      controls: false,
+      scrollActivationWidth: null,
+      pdfSeparateFragments: false,
+      multiplex: {
+        secret: '17370910604425335937', // Obtained from the socket.io server. Gives this (the master) control of the presentation
+        id: 'fbf90213fcec38dd', // Obtained from socket.io server
+        url: 'https://reveal-multiplex.glitch.me/' // Location of socket.io server
+      },
+      dependencies: [
+        {src: 'https://reveal-multiplex.glitch.me/socket.io/socket.io.js', async: true},
+        {src: 'https://reveal-multiplex.glitch.me/master.js', async: true},
+      ],
+      // Learn about plugins: https://revealjs.com/plugins/
+      plugins: [RevealMath.KaTeX]
+    });
+  </script>
+</body>
+
+</html>
