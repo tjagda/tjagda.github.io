@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Test</title>
+  <title>J+Z Wedding Reception Seating</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.jade.min.css">
   <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.1.0"></script>
   <style>
@@ -13,9 +13,35 @@
       height: 95%;
     }
 
+    path {
+      fill: none;
+      stroke: #015234;
+      stroke-width: 4.0;
+      stroke-dasharray: '0';
+      stroke-opacity: 1;
+    }
+
+    rect {
+      cursor: pointer;
+      fill: #015234;
+      fill-opacity: .1;
+      stroke: #015234;
+      stroke-width: 4.4;
+      stroke-opacity: 1;
+    }
+
+    article {
+      cursor: pointer;
+    }
+
     .faded {
       color: grey;
       font-style: italic;
+    }
+
+    .selected {
+      background-color: #39F1A6;
+      transition: background-color 0.5s ease;
     }
 
     #twoCol {
@@ -34,89 +60,166 @@
       width: 100%;
     }
   </style>
-  <script>
+  <script type="module">
+    //              _                 _   _
+    //   __ _ _ __ (_)_ __ ___   __ _| |_(_) ___  _ __  ___
+    //  / _` | '_ \| | '_ ` _ \ / _` | __| |/ _ \| '_ \/ __|
+    // | (_| | | | | | | | | | | (_| | |_| | (_) | | | \__ \
+    //  \__,_|_| |_|_|_| |_| |_|\__,_|\__|_|\___/|_| |_|___/
+
+    // Import anime.js
+    import {animate, createTimeline, svg, text, stagger} from 'https://cdn.jsdelivr.net/npm/animejs/+esm';
+
+    // Animations: Title
+    const {chars} = text.split('#title-anim', {words: false, chars: true});
+    //animate(chars, {
+    //  // Property keyframes
+    //  y: [
+    //    {to: '-3.5rem', ease: 'outExpo', duration: 600},
+    //    {to: 0, ease: 'outBounce', duration: 800, delay: 100}
+    //  ],
+    //  // Property specific parameters
+    //  rotate: {
+    //    from: '-1turn',
+    //    delay: 0
+    //  },
+    //  delay: stagger(50),
+    //  ease: 'inOutCirc',
+    //  loopDelay: 2000,
+    //  loop: true
+    //});
+
+    // Animations: Seating Paths
+    const seatingPaths = [];
+    seatingPaths.push(
+      createTimeline({autoplay: false})
+        .add(
+          svg.createDrawable("#path0"),
+          {
+            draw: ['0 0', '0 1'],
+            ease: 'inOutQuad',
+            duration: 800,
+            delay: stagger(100),
+            loopDelay: 5000,
+            loop: true
+          },
+          0
+        ).add(
+          svg.createDrawable("#table0"),
+          {
+            draw: ['0 0', '0 1'],
+            ease: 'inOutQuad',
+            duration: 800,
+            loopDelay: 5000,
+            loop: true
+          },
+          550
+        )
+    );
+
+
+    //                          _
+    //  ___  ___  __ _ _ __ ___| |__
+    // / __|/ _ \/ _` | '__/ __| '_ \
+    // \__ \  __/ (_| | | | (__| | | |
+    // |___/\___|\__,_|_|  \___|_| |_|
+
+    // List of people
+    // TODO: change into it's own file?
+    const list = [
+      {"name": "Josh Agda", "table": "0"},
+      {"name": "Zemirah Garcia", "table": "0"},
+      {"name": "Romeo Agda Sr.", "table": "1"},
+      {"name": "Jael Agda", "table": "1"},
+      {"name": "Romeo Agda Jr.", "table": "1"},
+      {"name": "John Agda", "table": "1"},
+      {"name": "Jireh Agda", "table": "1"},
+      {"name": "Noel Garcia", "table": "3"},
+      {"name": "Zenaida Garcia", "table": "3"},
+      {"name": "Zigrid Garcia", "table": "3"},
+      {"name": "Zarah Garcia", "table": "3"},
+      {"name": "JN Garcia", "table": "3"},
+    ]
+
+    // Fuse search setup
+    const options = {
+      includeScore: true,
+      keys: ["name"]
+    }
+    const fuse = new Fuse(list, options);
+
+    // Elements
+    const searchInput = document.getElementById("search");
+    const resetBtn = document.getElementById("reset");
+    const outputText = document.getElementById("output");
+    const nameDropdownDiv = document.getElementById("nameDropdown");
+    const tableBoxes = document.getElementsByTagName("rect");
+
+    function addNameDropdownCard(name, guestTable) {
+      let card = document.createElement("article");
+      card.setAttribute("table", guestTable);
+      card.innerHTML = `${name} <span class="faded">Table&nbsp;${guestTable}</span>`;
+
+      // Start seating animation
+      card.addEventListener("click", function () {
+        // Remove previous highlights and add new highlight
+        document.querySelectorAll(".selected").forEach((element) => element.classList.remove("selected"))
+        this.classList.add("selected");
+
+        // Revert any seating animations
+        seatingPaths.forEach((anim) => anim.revert());
+
+        // Start new seating animation
+        if (guestTable < seatingPaths.length) {
+          seatingPaths[guestTable].play();
+        }
+
+        // Restart clearing timer
+        restartTimeout();
+      });
+      nameDropdownDiv.append(card);
+    }
+
+    function clearDropdownCards() {
+      nameDropdownDiv.innerHTML = "";
+    }
+
+
+    //  _   _                            _   
+    // | |_(_)_ __ ___   ___  ___  _   _| |_ 
+    // | __| | '_ ` _ \ / _ \/ _ \| | | | __|
+    // | |_| | | | | | |  __/ (_) | |_| | |_ 
+    //  \__|_|_| |_| |_|\___|\___/ \__,_|\__|
+    var timeoutHandle = null;
+
+    function restartTimeout() {
+      if (!!timeoutHandle) {
+        window.clearTimeout(timeoutHandle);
+      }
+
+      // Clear elements
+      timeoutHandle = window.setTimeout(() => {
+        searchInput.value = "";
+        seatingPaths.forEach((anim) => anim.revert());
+        clearDropdownCards();
+      }, 15000);
+    }
+
+
+    //              _                 _ 
+    //   ___  _ __ | | ___   __ _  __| |
+    //  / _ \| '_ \| |/ _ \ / _` |/ _` |
+    // | (_) | | | | | (_) | (_| | (_| |
+    //  \___/|_| |_|_|\___/ \__,_|\__,_|
+
     document.addEventListener('DOMContentLoaded', async function () {
-      // List of people
-      // (TODO: change into it's own file?)
-      const list = [
-        {
-          "name": "Josh Agda",
-          "table": "1"
-        },
-        {
-          "name": "Zemirah Garcia",
-          "table": "1"
-        },
-        {
-          "name": "Romeo Agda Sr.",
-          "table": "2"
-        },
-        {
-          "name": "Jael Agda",
-          "table": "2"
-        },
-        {
-          "name": "Romeo Agda Jr.",
-          "table": "2"
-        },
-        {
-          "name": "John Agda",
-          "table": "2"
-        },
-        {
-          "name": "Jireh Agda",
-          "table": "2"
-        },
-        {
-          "name": "Noel Garcia",
-          "table": "3"
-        },
-        {
-          "name": "Zenaida Garcia",
-          "table": "3"
-        },
-        {
-          "name": "Zigrid Garcia",
-          "table": "3"
-        },
-        {
-          "name": "Zarah Garcia",
-          "table": "3"
-        },
-        {
-          "name": "JN Garcia",
-          "table": "3"
-        },
-      ]
-
-      // Fuse search setup
-      const options = {
-        includeScore: true,
-        keys: ["name"]
-      }
-      const fuse = new Fuse(list, options);
-
-      // Elements
-      const searchInput = document.getElementById("search");
-      const resetBtn = document.getElementById("reset");
-      const outputText = document.getElementById("output");
-      const nameDropdownDiv = document.getElementById("nameDropdown");
-
-      function addNameDropdownCard(name, table) {
-        let card = document.createElement("article");
-        card.style.cursor = "pointer";
-        card.innerHTML = `${name} <span class="faded">Table&nbsp;${table}</span>`;
-        nameDropdownDiv.append(card);
-      }
-
-      function clearDropdownCards() {
-        nameDropdownDiv.innerHTML = "";
-      }
-
       // Input function
       searchInput.addEventListener("input", function () {
         const limit = 7;
         let result = fuse.search(this.value);
+
+        // Revert any seating animations
+        seatingPaths.forEach((anim) => anim.revert());
 
         // Only get the top hits
         let topHits = result.slice(0, limit).map(function (item) {
@@ -126,6 +229,29 @@
         // Clear and generate dropdown cards
         clearDropdownCards();
         topHits.forEach((element) => addNameDropdownCard(element[0], element[1]))
+
+        // Restart clearing timer
+        restartTimeout();
+      });
+
+      // Add event listener for each table to show table guests and start animation
+      Array.from(tableBoxes).forEach((element) => {
+        let guestTable = element.id.slice(5)
+
+        element.addEventListener("click", () => {
+          // TODO: Memoize?
+          let tableGuests = list.filter((guest) => guest['table'] == guestTable);
+
+          clearDropdownCards();
+          tableGuests.forEach((guest) => addNameDropdownCard(guest["name"], guest["table"]));
+
+          if (guestTable < seatingPaths.length) {
+            seatingPaths[guestTable].play();
+          }
+
+          // Restart clearing timer
+          restartTimeout();
+        });
       });
     });
   </script>
@@ -133,10 +259,13 @@
 
 <body>
   <main class="container">
+    <div id="title-anim" class="large centered row">
+      <h1>Josh and Zemirah's Wedding Reception</h1>
+    </div>
     <div id="search-bar">
-      <input type="search" id="search" name="search" placeholder="Search Name" aria-describedby="search-helper">
+      <input type="search" id="search" name="search" placeholder="Search" aria-describedby="search-helper">
       <small id="search-helper">
-        Enter your name to find your table!
+        <u>Enter your name</u> to find your table, or <u>tap on a table</u> to see table guests!
       </small>
     </div>
 
@@ -146,39 +275,11 @@
 
       <div id="map">
         <svg viewBox="0 0 500 900">
-          <style type="text/css">
-          </style>
-          <image href="./floorplan.png" x="0" y="0" width="500" height="900" />
+          <image href="./floorplanv3.png" x="0" y="0" width="500" height="900" />
+          <path id="path0"
+            d="m 205.91221,811.76931 c 0,0 26.56572,-45.75134 32.11556,-71.18394 11.84431,-54.27753 -51.26348,-106.23346 -49.45252,-179.64352 2.11788,-85.85161 -14.12545,-205.0978 -3.60307,-279.76723 5.95135,-42.23223 30.14096,-64.81214 41.63469,-83.96471 13.29818,-22.15941 14.944,-55.97525 14.944,-55.97525" />
+          <rect id="table0" width="92.167885" height="31.733753" x="199.50264" y="100.80133" />
         </svg>
-        <!-- <svg viewbox="0 0 200 200">
-          <style type="text/css">
-            .test {
-              fill: purple;
-            }
-
-            g:hover rect:first-child {
-              fill: red;
-              stroke: blue;
-            }
-
-            g:hover rect {
-              fill: green;
-            }
-
-            rect {
-              stroke: green;
-              stroke-width: 2;
-              fill: yellow;
-            }
-          </style>
-          <g>
-            <rect x="0" y="0" width="200" height="200" />
-            <rect x="0" y="0" rx="5" width="100" height="60" />
-            <rect x="20" y="20" rx="5" width="10" height="10" />
-            <text x="10" y="20">Test</text>
-          </g>
-          <rect class="test" x="0" y="20" width="100" height="20" />
-        </svg> -->
       </div>
     </div>
   </main>
