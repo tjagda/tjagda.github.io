@@ -150,15 +150,12 @@
 
     // Elements
     const searchInput = document.getElementById("search");
-    const resetBtn = document.getElementById("reset");
-    const outputText = document.getElementById("output");
     const nameDropdownDiv = document.getElementById("nameDropdown");
     const tableBoxes = document.getElementsByTagName("rect");
 
-    function addNameDropdownCard(name, guestTable) {
+    function addNameDropdownCard(guestName, guestTable) {
       let card = document.createElement("article");
-      card.setAttribute("table", guestTable);
-      card.innerHTML = `${name} <span class="faded">Table&nbsp;${guestTable}</span>`;
+      card.innerHTML = `${guestName} <span class="faded">Table&nbsp;${guestTable}</span>`;
 
       // Start seating animation
       card.addEventListener("click", function () {
@@ -167,11 +164,9 @@
         Array.from(oldSelected).forEach((element) => element.classList.remove("selected"));
         this.classList.add("selected");
 
-        // Revert any seating animations
-        seatingPaths.forEach((anim) => anim.revert());
-
         // Start new seating animation
         if (guestTable < seatingPaths.length) {
+          seatingPaths.forEach((anim) => anim.began && anim.revert());
           seatingPaths[guestTable].play();
         }
 
@@ -201,7 +196,7 @@
       // Clear elements
       timeoutHandle = window.setTimeout(() => {
         searchInput.value = "";
-        seatingPaths.forEach((anim) => anim.revert());
+        seatingPaths.forEach((anim) => anim.began && anim.revert());
         clearDropdownCards();
       }, 15000);
     }
@@ -220,16 +215,13 @@
         let result = fuse.search(this.value);
 
         // Revert any seating animations
-        seatingPaths.forEach((anim) => anim.revert());
+        seatingPaths.forEach((anim) => anim.began && anim.revert());
 
         // Only get the top hits
-        let topHits = result.slice(0, limit).map(function (item) {
-          return [item["item"]["name"], item["item"]["table"]];
-        });
-
-        // Clear and generate dropdown cards
         clearDropdownCards();
-        topHits.forEach((element) => addNameDropdownCard(element[0], element[1]))
+        let topHits = result.slice(0, limit).forEach((hit) => {
+          addNameDropdownCard(hit["item"]["name"], hit["item"]["table"]);
+        });
 
         // Restart clearing timer
         restartTimeout();
@@ -247,6 +239,7 @@
           tableGuests.forEach((guest) => addNameDropdownCard(guest["name"], guest["table"]));
 
           if (guestTable < seatingPaths.length) {
+            seatingPaths.forEach((anim) => anim.began && anim.revert());
             seatingPaths[guestTable].play();
           }
 
