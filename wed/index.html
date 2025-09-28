@@ -163,7 +163,8 @@
       // Start seating animation
       card.addEventListener("click", function () {
         // Remove previous highlights and add new highlight
-        document.querySelectorAll(".selected").forEach((element) => element.classList.remove("selected"))
+        let oldSelected = document.getElementsByClassName("selected");
+        Array.from(oldSelected).forEach((element) => element.classList.remove("selected"));
         this.classList.add("selected");
 
         // Revert any seating animations
